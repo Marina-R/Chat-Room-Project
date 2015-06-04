@@ -1,0 +1,20 @@
+{
+  "name": "dist",
+  "version": "0.0.0",
+  "authors": [
+    "maryna <luv_this_world@hotmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "backbone": "~1.2.0",
+    "jquery": "~2.1.4",
+    "bootstrap": "~3.3.4"
+  }
+}
