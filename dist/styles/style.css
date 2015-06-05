@@ -1,0 +1,31 @@
+html, body, #chat, #sidebar, #main, #welcome {
+	height: 100%;
+	overflow: hidden;
+}
+#sidebar {
+	background: grey;
+}
+#header {
+	height: 7%;
+}
+#msg-input {
+	position: absolute;
+	bottom: 1%;
+	left: 1%;
+	width: 100%;
+}
+#msg-output {
+	position: absolute;
+	bottom: 10%;
+	width: 100%;
+}
+.nav-sidebar {
+	height: 25%;
+}
+button {
+	height: 46px;
+}
+#users {
+	overflow: auto;
+	height: 100%;
+}
