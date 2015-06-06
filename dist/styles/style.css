@@ -25,7 +25,15 @@ html, body, #chat, #sidebar, #main, #welcome {
 button {
 	height: 46px;
 }
-#users {
+#top-users {
+	height: 30%;
+	margin-bottom: 10px;
+}
+#active-rooms {
+	height: 20%;
+}
+#users, #leaders {
 	overflow: auto;
-	height: 100%;
+	height: 90%;
+	line-height: 1.3;
 }
