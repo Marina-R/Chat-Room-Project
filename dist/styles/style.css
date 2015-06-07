@@ -130,7 +130,8 @@ label {
 }
 #smiles {
 	width: 50px;
-	/*background: ;*/
+	background-image: url(../smile.png);
+	background-size: cover;
 }
 #enter-msg {
 	display: inline-flex;
@@ -163,7 +164,7 @@ button {
 	display: none;
 	z-index: 111;
 	width: 40%;
-	height: 60%;
+	height: 45%;
 	position: absolute;
 	top: 15%;
 	left: 40%;
@@ -184,4 +185,12 @@ thead {
 }
 #users {
 	margin-left: 20px;
+}
+#block2, #block3, #block4 {
+	height: 20%;
+	margin-left: 20px;
+	margin-top: 25px;
+}
+#block4 {
+	text-align: center;
 }

@@ -40,9 +40,9 @@
 				<div class="list" id="rooms">
 					<a href='#Global' id="go-global">Global</a><br>
 					<a href='#Private' id="go-private">Private</a><br>
-					<a href='#No-unicorns-allowed' id="go-unicorns">No unicorns allowed</a><br>
-					<a href='#Extreme-programming' id="go-extreme">Extreme programming</a><br>
-					<a href='#Waterfalls-are-pretty' id="go-waterfalls">Waterfalls are pretty</a>
+					<a href='#No-unicorns-allowed' id="go-unicorns">No-unicorns-allowed</a><br>
+					<a href='#Extreme-programming' id="go-extreme">Extreme-programming</a><br>
+					<a href='#Waterfalls-are-pretty' id="go-waterfalls">Waterfalls-are-pretty</a>
 				</div>
 			</div>
 			<div class='nav-sidebar' id="top-users">
@@ -89,11 +89,31 @@
 	</section>
 	<section id='set'>
 		<div class="header" id='block1'>Settings</div>
-		<div id="block2"></div>
+		<div id="block2">
+			<label>Change Username<br>
+				<input type="text" id="changeName">
+				<button type="submit" id="changeNameBtn">Apply</button>
+			</label>
+		</div>
+		<div id="block3">
+			<label>Show messages for the last<br>
+				<select>
+					<option value='2'>2 minutes</option>
+					<option value="5" selected>5 minutes</option>
+					<option value="10">10 minutes</option>
+					<option value="20">20 minutes</option>
+					<option value="30">30 minutes</option>
+				</select>
+				<button type="submit" id="changeHistory">Apply</button>
+			</label>
+		</div>
+		<div id="block4">
+			
+		</div>
 	</section>
 
 	<script type="text/template" id='messages'>
-		<div id='msg-row'>
+		<div id='msg-row' data-id='<%= id %>'>
 			<div class='user'><%= username %></div>
 			<div class='msg'><%= msg %></div>
 			<div class='time'><%= created_at %></div>

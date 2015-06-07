@@ -28,9 +28,12 @@ $(document).ready(function() {
 	var user = '';
 	var room = '';
 	var msg = '';
+	var id = '';
+	
 	var url = 'https://superamazingchat.herokuapp.com/';
 	var chatMsg = _.template($('#messages').html());
 	var msgObj = {};
+	var msgArray = [];
 	
 	$('#user-login').submit(function(e) {
 		e.preventDefault();
@@ -41,32 +44,61 @@ $(document).ready(function() {
 
 	$('textarea').keypress(function(e) {
 		if(e.which == 13) {
-			msg = $('textarea').val();
-			createMsg(user + ':', msg, setTime());
 			e.preventDefault();
-			$.post(url + 'chat/', {username: user+':', msg: msg, room: room}, 'json');
+			msg = $('textarea').val();
+			$.post(url + 'chat/', {username: user, msg: msg, room: room}, 'json');
+			setTimeout(getMsg, 500);
 			$('textarea').val('');
 		}
 	});
 
 	$('#enter-msg').submit(function(e) {
 		e.preventDefault();
-		createMsg(user+':', $('textarea').val(), setTime());
-		$.post(url + 'chat/', {username: user+':', msg: $('textarea').val(), room: room}, 'json');
+		$.post(url + 'chat/', {username: user, msg: $('textarea').val(), room: room}, 'json');
+		setTimeout(getMsg, 500);
 		$('textarea').val('');
-
 	});
+
 	$('#settings').click(function() {
 		$('#chat').css('opacity', '0.7');
 		$('#set').css('display', 'block');
-	})
-	// $('#go-global').click(changeRoom);
+
+		$('#changeNameBtn').click(function() {
+			user = $('#changeName').val();
+			changeRoom(room, user);
+			$('#chat').css('opacity', '1');
+			$('#set').css('display', 'none');
+			
+		});
+	});
+
+	$('#go-global').click(function (){
+		changeRoom('Global', user);
+		setInterval(getMsg, 1000);
+	});
+	$('#go-private').click(function (){
+		changeRoom('Private', user);
+		setInterval(getMsg, 1000);
+	});
+	$('#go-unicorns').click(function (){
+		changeRoom('No-unicorns-allowed', user);
+		setInterval(getMsg, 1000);
+	});
+	$('#go-extreme').click(function (){
+		changeRoom('Extreme-programming', user);
+		setInterval(getMsg, 1000);
+	});
+	$('#go-waterfalls').click(function (){
+		changeRoom('Waterfalls-are-pretty', user);
+		setInterval(getMsg, 1000);
+	});
 
 	function changeRoom (thisRoom, user) {
+		console.log(thisRoom);
 		myApp.navigate('chat/' + thisRoom, {trigger: true});
 		$('#room-name').html(thisRoom);
-		$('#msg-output').empty();
-		$.post(url + 'new_user', {username: user+':', room: thisRoom}, 'json'); 
+		// $('#msg-output').empty();
+		$.post(url + 'new_user', {username: user, room: thisRoom}, 'json'); 
 		$.get(url + 'recent', 
 			function(data) {
 				var users = [];
@@ -101,23 +133,44 @@ $(document).ready(function() {
 		
 	};
 
+	function checkMsg (msgArray, data) {
+		var present = false;
+		for(var j = 0; j < msgArray.length; j++) {
+			if(msgArray[j].id == data.id) {
+				present = true;
+				break;
+			
+			} else {
+				msgArray.push(data);
+			}
+		}
+		return present;
+	}
+ 	var lastMsgId = 0;
+
 	function getMsg() {
 		return ($.get(url + 'chat/'+ room, 
 			function(data) {
-				for(var i = 0; i<data.length; i++) {
-					createMsg(data[i].username, data[i].msg, moment(data[i].created_at).format('HH:mm:ss'));
+				for(var i = 0; i < data.length; i++) {
+					if(data[i].id > lastMsgId) {
+						createMsg(data[i].username, data[i].msg, moment(data[i].created_at).format('HH:mm:ss'), data[i].id);
+						lastMsgId = data[i].id;
+					}
 				}
 			},
 		'json'
 		));
 	};
 
-	function createMsg (user, msg, time) {
+	function createMsg (user, msg, time, id) {
 		msgObj.username = user;
 		msgObj.msg = msg;
 		msgObj.created_at = time;
+		msgObj.id = id;
 		var thisMsg = chatMsg(msgObj);
+		msgArray.push(msgObj);
 		$('#msg-output').append(thisMsg);
+	
 	};
 	function setTime() {
 		var date = new Date();
@@ -136,4 +189,5 @@ $(document).ready(function() {
 		return (hh + ':' + mm + ':' + ss);
 	};
 
+	setInterval(getMsg, 1000);
 })
