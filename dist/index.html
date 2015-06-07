@@ -3,103 +3,104 @@
 <head>
 	<title>Chat Room</title>
 	<meta charset='utf8'>
-	<link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="styles/normalize.css">
 	<link rel="stylesheet" type="text/css" href="styles/style.css">
 </head>
 <body>
 	<section id="welcome">
-		<div class='row' id="logo"></div>
-		<div class='row col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3' id="login">
+		<div id="logo"></div>
+		<div id="login">
 			<form id="user-login">
-				<!-- <div> -->
-					<label>Choose Your Username
+				<div class="label">
+					<label>Choose Your Username <br>
 						<input type="text" id="login-username">
 					</label>
-				<!-- </div>
-				<div> -->
-					<label><a href='#welcome'>Choose The Room</a>
-						<select class="form-control" id="select">
-							<option value="global" selected>Global</option>
-							<option value="private">Private</option>
-							<option value="no-unicorns-allowed">No unicorns allowed</option>
-							<option value="extreme-programming">Extreme programming</option>
-							<option value="waterfalls-are-pretty">Waterfalls are pretty</option>
+				</div>
+				<div class="label">
+					<label><a href='#welcome'>Choose The Room</a><br>
+						<select id="select">
+							<option value="Global" selected>Global</option>
+							<option value="Private">Private</option>
+							<option value="No-unicorns-allowed">No unicorns allowed</option>
+							<option value="Extreme-programming">Extreme programming</option>
+							<option value="Waterfalls-are-pretty">Waterfalls are pretty</option>
 						</select>
 					</label>
-					
+				</div>	
+				<div id="button">
 					<button type="submit" id="enter-button">Enter chat</button>
-				<!-- </div> -->
+				</div>
 			</form>
 		</div>
 	</section>
-	<section id='chat' class='container-fluid row global private no-unicorns-allowed extreme-programming waterfalls-are-pretty'>
-		<div class="col-xs-3 col-sm-3 col-md-2 sidebar" id="sidebar">
-			<div class='nav nav-sidebar'>
+	<section id='chat' class='Global Private No-unicorns-allowed Extreme-programming Waterfalls-are-pretty'>
+		<div id="sidebar">
+			<div class='nav-sidebar'>
 				<div class='header'><a href='#chat'>Rooms</a></div>
-				<div class="room active" id="rooms">
-					<a href='#global' id="go-global">Global</a><br>
-					<a href='#private' id="go-private">Private</a><br>
-					<a href='#no-unicorns-allowed' id="go-unicorns">No unicorns allowed</a><br>
-					<a href='#extreme-programming' id="go-extreme">Extreme programming</a><br>
-					<a href='#waterfalls-are-pretty' id="go-waterfalls">Waterfalls are pretty</a>
+				<div class="list" id="rooms">
+					<a href='#Global' id="go-global">Global</a><br>
+					<a href='#Private' id="go-private">Private</a><br>
+					<a href='#No-unicorns-allowed' id="go-unicorns">No unicorns allowed</a><br>
+					<a href='#Extreme-programming' id="go-extreme">Extreme programming</a><br>
+					<a href='#Waterfalls-are-pretty' id="go-waterfalls">Waterfalls are pretty</a>
 				</div>
 			</div>
-			<div class='nav nav-sidebar' id="top-users">
+			<div class='nav-sidebar' id="top-users">
 				<div class='header'>
 					<a href='#top-10'>Top-10 users on chat</a>
 				</div>
-				<div id="leaders">
+				<div class="list" id="leaders">
+					<table>
+						<thead>
+							<th>Username</th>
+							<th># of msg</th>
+						</thead>
+						<tbody id="table"></tbody>
+					</table>
 				</div>
 			</div>
-			<div class='nav nav-sidebar' id="active-rooms">
+			<div class='nav-sidebar' id="active-rooms">
 				<div class='header'>
 					<a href='#active'>Most active rooms</a>
 				</div>
-				<div id="active">
-				</div>
+				<div class="list" id="active"></div>
 			</div>
-			<div class='nav nav-sidebar' id="recent-users">
+			<div class='nav-sidebar' id="recent-users">
 				<div class='header'>
 					<a href='#recent'>Recent users</a>
 				</div>
-				<div id='users'>
-				</div>
+				<div class="list" id='users'></div>
 			</div>
 		</div>
-		<div class='col-xs-9 col-sm-9 col-md-10 main' id="main">
-			<div class="header main row" id="header">
-				<div class='col-xs-9 col-sm-10 col-md-11' id="room-name"></div>
-				<div class='col-xs-2 col-sm-2 col-md-1' id="settings">Settings</div>
+		<div id="main">
+			<div class="header" id="header">
+				<div id="room-name"></div>
+				<div id="settings"></div>
 			</div>
-			<div class="row" id='msg-output'>
-				<!-- <table class="table">
-					<tbody>
-						
-					</tbody>
-				</table> -->
-
-			</div>
-			<div class="row" id="msg-input">
+			<div id='msg-output'></div>
+			<div id="msg-input">
 				<form id="enter-msg">
-					<div class="col-xs-1 col-sm-1 col-md-1" id="smiles"></div>
-					<textarea class="col-xs-9 col-sm-9 col-md-9" placeholder='Type your message here...'></textarea>
-					<button type="submit" class="col-xs-2 col-sm-2 col-md-2">Submit</button>
+					<div id="smiles"></div>
+					<textarea  placeholder='Type your message here...'></textarea>
+					<button type="submit">Submit</button>
 				</form>
 			</div>
 		</div>
 	</section>
-	<section id='settings'></section>
+	<section id='set'>
+		<div class="header" id='block1'>Settings</div>
+		<div id="block2"></div>
+	</section>
 
 	<script type="text/template" id='messages'>
-		<div class='msg-row row' id='msg-row'>
-			<div class='col-xs-2 col-sm-2 col-md-2'><%= username %></div>
-			<div class='col-xs-8 col-sm-8 col-md-8'><%= msg %></div>
-			<div class='col-xs-2 col-sm-2 col-md-2'><%= created_at %></div>
+		<div id='msg-row'>
+			<div class='user'><%= username %></div>
+			<div class='msg'><%= msg %></div>
+			<div class='time'><%= created_at %></div>
 		</div>
 	</script>
 
 	<script type="text/javascript" src='bower_components/jquery/dist/jquery.min.js'></script>
-	<script type="text/javascript" src='bower_components/bootstrap/dist/js/bootstrap.min.js'></script>
 	<script type="text/javascript" src='bower_components/underscore/underscore-min.js'></script>
 	<script type="text/javascript" src='bower_components/backbone/backbone-min.js'></script>
 	<script type="text/javascript" src='bower_components/moment/min/moment.min.js'></script>
