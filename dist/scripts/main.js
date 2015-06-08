@@ -48,11 +48,19 @@ $(document).ready(function() {
 			e.preventDefault();
 			msg = $('textarea').val();
 			$.post(url + 'chat/', {username: user, msg: msg, room: room}, 'json');
-			// var audio = new Audio('sound.mp3');
-			// audio.play();
 			setTimeout(getMsg, 500);
 			$('textarea').val('');
 		}
+		$.get(url + 'leaderboard', 
+			function(data) {
+				var users = [];
+				for(var i = 0; i<data.length; i++) {
+					users.push('<tr><td>' + data[i][0] + '</td><td>' + data[i][1] + '</td></tr>');
+				}
+				$('#table1').html(users.join(''));
+			},
+		'json'
+		);
 	});
 
 	$('#enter-msg').submit(function(e) {
@@ -77,8 +85,6 @@ $(document).ready(function() {
 		$('#changeHistory').click(function() {
 			var time = $('#timeRange').val() * 60;
 			function getMsg(time, room) {
-
-				console.log(room);
 				return ($.get(url + 'chat/' + room + '/'+ time, 
 					function(data) {
 						$('#msg-output').empty();

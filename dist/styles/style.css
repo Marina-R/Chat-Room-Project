@@ -58,6 +58,7 @@ html, body, #chat, #sidebar, #main, #welcome {
 	float: left;
 	width: 85%;
 	margin-top: 15px;
+	text-decoration: underline;
 }
 #msg-input {
 	position: absolute;
