@@ -39,6 +39,7 @@ $(document).ready(function() {
 		e.preventDefault();
 		room = $('#select').val();
 		user = $('#login-username').val();
+		lastMsgId = 0;
 		changeRoom(room, user);
 	});
 
@@ -65,57 +66,92 @@ $(document).ready(function() {
 
 		$('#changeNameBtn').click(function() {
 			user = $('#changeName').val();
+			lastMsgId = 0;
 			changeRoom(room, user);
 			$('#chat').css('opacity', '1');
-			$('#set').css('display', 'none');
-			
+			$('#set').css('display', 'none');	
+		});
+
+		$('#changeHistory').click(function() {
+			var time = $('#timeRange').val() * 60;
+			function getMsg(time, room) {
+
+				console.log(room);
+				return ($.get(url + 'chat/' + room + '/'+ time, 
+					function(data) {
+						$('#msg-output').empty();
+						for(var i = 0; i < data.length; i++) {
+							createMsg(data[i].username, data[i].msg, moment(data[i].created_at).format('HH:mm:ss'), data[i].id);			
+						}
+					},
+				'json'
+				));
+			};
+			getMsg(time, room);
+			$('#chat').css('opacity', '1');
+			$('#set').css('display', 'none');	
 		});
 	});
 
+	var lastMsgId = 0;
+
 	$('#go-global').click(function (){
+		lastMsgId = 0;
 		changeRoom('Global', user);
-		setInterval(getMsg, 1000);
 	});
 	$('#go-private').click(function (){
+		lastMsgId = 0;
 		changeRoom('Private', user);
-		setInterval(getMsg, 1000);
 	});
 	$('#go-unicorns').click(function (){
+		lastMsgId = 0;
 		changeRoom('No-unicorns-allowed', user);
-		setInterval(getMsg, 1000);
 	});
 	$('#go-extreme').click(function (){
+		lastMsgId = 0;
 		changeRoom('Extreme-programming', user);
-		setInterval(getMsg, 1000);
 	});
 	$('#go-waterfalls').click(function (){
+		lastMsgId = 0;
 		changeRoom('Waterfalls-are-pretty', user);
-		setInterval(getMsg, 1000);
 	});
 
 	function changeRoom (thisRoom, user) {
-		console.log(thisRoom);
 		myApp.navigate('chat/' + thisRoom, {trigger: true});
 		$('#room-name').html(thisRoom);
-		// $('#msg-output').empty();
+		$('#msg-output').empty();
 		$.post(url + 'new_user', {username: user, room: thisRoom}, 'json'); 
 		$.get(url + 'recent', 
 			function(data) {
 				var users = [];
 				for(var i = 0; i<data.length; i++) {
-					users.push(data[i] + '<br>');
+					users.push('<div>' + data[i] + '</div>');
 				}
 				$('#users').html(users.join(''));
+				$('#users > div').click(function(e) {
+					var user = $(e.target).html();
+					console.log(user);
+					$.get(url + 'chat/profile/' + user, 
+						function (data) {
+							$('#msg-output').empty();
+							for(var i = 0; i < data.length; i++) {
+								createMsg(data[i].username, data[i].msg, moment(data[i].created_at).format('HH:mm:ss'), data[i].id);
+							}
+						},
+					'json'
+					);
+				});
 			},
-		'json'
+			'json'
 		);
+
 		$.get(url + 'most_active_rooms', 
 			function(data) {
 				var users = [];
 				for(var i = 0; i<data.length; i++) {
-					users.push('<a href="#'+data[i]+'">' + data[i] + '</a><br>');
+					users.push('<tr><td>' + data[i][0] + '</td><td>' + data[i][1] + '</td></tr>');
 				}
-				$('#active').html(users.join(''));
+				$('#table2').html(users.join(''));
 			},
 		'json'
 		);
@@ -123,9 +159,9 @@ $(document).ready(function() {
 			function(data) {
 				var users = [];
 				for(var i = 0; i<data.length; i++) {
-					users.push('<tr><td>'+data[i][0]+'</td>' + '<td>'+ data[i][1] + '</td></tr>');
+					users.push('<tr><td>' + data[i][0] + '</td><td>' + data[i][1] + '</td></tr>');
 				}
-				$('#table').html(users.join(''));
+				$('#table1').html(users.join(''));
 			},
 		'json'
 		);
@@ -146,7 +182,7 @@ $(document).ready(function() {
 		}
 		return present;
 	}
- 	var lastMsgId = 0;
+ 
 
 	function getMsg() {
 		return ($.get(url + 'chat/'+ room, 
@@ -154,6 +190,7 @@ $(document).ready(function() {
 				for(var i = 0; i < data.length; i++) {
 					if(data[i].id > lastMsgId) {
 						createMsg(data[i].username, data[i].msg, moment(data[i].created_at).format('HH:mm:ss'), data[i].id);
+						$('.msg').emoticonize();
 						lastMsgId = data[i].id;
 					}
 				}
@@ -170,7 +207,7 @@ $(document).ready(function() {
 		var thisMsg = chatMsg(msgObj);
 		msgArray.push(msgObj);
 		$('#msg-output').append(thisMsg);
-	
+
 	};
 	function setTime() {
 		var date = new Date();
@@ -189,5 +226,5 @@ $(document).ready(function() {
 		return (hh + ':' + mm + ':' + ss);
 	};
 
-	setInterval(getMsg, 1000);
+	setInterval(getMsg, 2000);
 })

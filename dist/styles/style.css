@@ -70,6 +70,8 @@ html, body, #chat, #sidebar, #main, #welcome {
 	bottom: 10%;
 	width: 100%;
 	margin-left: 5px;
+	max-height: 79%;
+	overflow: auto;
 }
 .nav-sidebar {
 	height: 25%;
@@ -109,6 +111,7 @@ html, body, #chat, #sidebar, #main, #welcome {
 label > a, .header > a, .list > a {
 	color: white;
 	text-decoration: none;
+	pointer-events: none;
 }
 input {
 	color: black;
@@ -182,6 +185,7 @@ td, th {
 thead {
 	text-decoration: underline;
 	font-style: italic;
+	text-align: left;
 }
 #users {
 	margin-left: 20px;
@@ -193,4 +197,7 @@ thead {
 }
 #block4 {
 	text-align: center;
+}
+#users {
+	cursor: pointer;
 }
