@@ -48,6 +48,8 @@ $(document).ready(function() {
 			e.preventDefault();
 			msg = $('textarea').val();
 			$.post(url + 'chat/', {username: user, msg: msg, room: room}, 'json');
+			// var audio = new Audio('sound.mp3');
+			// audio.play();
 			setTimeout(getMsg, 500);
 			$('textarea').val('');
 		}
@@ -207,6 +209,8 @@ $(document).ready(function() {
 		var thisMsg = chatMsg(msgObj);
 		msgArray.push(msgObj);
 		$('#msg-output').append(thisMsg);
+		var audio = new Audio('sound.mp3');
+		audio.play();
 
 	};
 	function setTime() {
